@@ -1,12 +1,20 @@
 const assetService = require("../services/assetService");
 
 exports.createAsset = async (req, res) => {
-    const asset = await assetService.createAsset({
-        ...req.body,
-        userId: req.user.id
-    });
+    console.log("BODY:", req.body);
+    console.log("USER:", req.user);
 
-    res.json(asset);
+    try {
+        const asset = await assetService.createAsset({
+            ...req.body,
+            userId: req.user.id
+        });
+
+        res.json(asset);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: error.message });
+    }
 };
 
 exports.getAssets = async (req, res) => {
